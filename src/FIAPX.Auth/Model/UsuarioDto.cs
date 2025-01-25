@@ -1,0 +1,1 @@
+﻿public record class UsuarioDto(string Password = "", string Email = "", string Nome = "");
