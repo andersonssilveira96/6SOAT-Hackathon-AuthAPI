@@ -1,4 +1,4 @@
-name: Deploy Lambda to AWS
+name: Deploy auth Infrastructure
 on:
  pull_request:
     types:
@@ -19,12 +19,53 @@ jobs:
         with:
           dotnet-version: 8.x
       - name: Restore NuGet packages
-        run: dotnet restore FIAPX.Auth/*.csproj
+        run: dotnet restore FIAPX.Auth=/*.csproj
       - name: Build
-        run: dotnet build FIAPX.Auth/*.csproj
+        run: dotnet build FIAPX.Auth=/*.csproj
+  tf-deploy:
+      name: Terraform Deploy
+      needs:
+        - build
+      if: github.ref == 'refs/heads/release' || github.ref == 'refs/heads/master'
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: src
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Login to AWS
+          uses: aws-actions/configure-aws-credentials@v3
+          with:
+            aws-region: us-east-1
+            aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+            aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+            aws-session-token: '${{ secrets.AWS_SESSION_TOKEN }}'
+        - name: Configure AWS Dotnet CLI
+          run: dotnet tool install -g Amazon.Lambda.Tools
+        - name: Restore NuGet packages
+          run: dotnet restore FIAPX.Auth=/*.csproj
+        - name: Build
+          run: dotnet build FIAPX.Auth=/*.csproj
+        - name: Prepare package
+          run: >-
+            dotnet lambda package --project-location 
+            FIAPX.Auth=/ --output-package
+            FIAPX.Auth=/auth_lambda.zip --configuration Release
+            --framework net8.0
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+        - name: Prepare environment
+          run: terraform -chdir=terraform/ init
+        - name: Terraform Plan
+          run: terraform -chdir=terraform/ plan -lock=false -no-color -input=false
+        - name: Execute terraform apply
+          run: >-
+            terraform -chdir=terraform/ apply -lock=false -auto-approve
+            -input=false
   deploy:
         needs:
-          - build
+          - tf-deploy
         if: >-
           github.ref == 'refs/heads/release' || github.ref ==
           'refs/heads/master'
@@ -46,15 +87,15 @@ jobs:
           - name: Configure AWS Dotnet CLI
             run: dotnet tool install -g Amazon.Lambda.Tools
           - name: Restore NuGet packages
-            run: dotnet restore src/FIAPX.Auth/*.csproj
+            run: dotnet restore src/FIAPX.Auth=/*.csproj
           - name: Build
             run: >-
-              dotnet build src/FIAPX.Auth/*.csproj
+              dotnet build src/FIAPX.Auth=/*.csproj
               --no-restore
           - name: Prepare package
             run: >-
               dotnet lambda package --project-location 
-              src/FIAPX.Auth/ --output-package
+              src/FIAPX.Auth=/ --output-package
               auth_lambda.zip --configuration Release --framework net8.0
           - name: Deploy to AWS Lambda auth
             run: >-
