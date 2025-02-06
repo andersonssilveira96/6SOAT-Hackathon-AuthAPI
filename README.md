@@ -1,6 +1,8 @@
 # 6SOAT Hackathon AuthAPI
 Repositório para a AWS Lambda responsavel pela autentição e autorização dos usuários para o projeto do Hackathon da FIAP.
 
+![image](https://github.com/user-attachments/assets/109add50-bf92-43c6-b4cb-4c4d61d3e803)
+
 ## Projetos Relacionados
 
 Este repositório faz parte de um conjunto de projetos usados para desenvolver a aplicação como um todo:
