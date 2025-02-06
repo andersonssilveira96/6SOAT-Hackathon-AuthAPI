@@ -19,9 +19,9 @@ jobs:
         with:
           dotnet-version: 8.x
       - name: Restore NuGet packages
-        run: dotnet restore FIAPX.Auth=/*.csproj
+        run: dotnet restore FIAPX.Auth/*.csproj
       - name: Build
-        run: dotnet build FIAPX.Auth=/*.csproj
+        run: dotnet build FIAPX.Auth/*.csproj
   tf-deploy:
       name: Terraform Deploy
       needs:
@@ -44,14 +44,14 @@ jobs:
         - name: Configure AWS Dotnet CLI
           run: dotnet tool install -g Amazon.Lambda.Tools
         - name: Restore NuGet packages
-          run: dotnet restore FIAPX.Auth=/*.csproj
+          run: dotnet restore FIAPX.Auth/*.csproj
         - name: Build
-          run: dotnet build FIAPX.Auth=/*.csproj
+          run: dotnet build FIAPX.Auth/*.csproj
         - name: Prepare package
           run: >-
             dotnet lambda package --project-location 
-            FIAPX.Auth=/ --output-package
-            FIAPX.Auth=/auth_lambda.zip --configuration Release
+            FIAPX.Auth/ --output-package
+            FIAPX.Auth/auth_lambda.zip --configuration Release
             --framework net8.0
         - name: Setup Terraform
           uses: hashicorp/setup-terraform@v2
@@ -87,15 +87,15 @@ jobs:
           - name: Configure AWS Dotnet CLI
             run: dotnet tool install -g Amazon.Lambda.Tools
           - name: Restore NuGet packages
-            run: dotnet restore src/FIAPX.Auth=/*.csproj
+            run: dotnet restore src/FIAPX.Auth/*.csproj
           - name: Build
             run: >-
-              dotnet build src/FIAPX.Auth=/*.csproj
+              dotnet build src/FIAPX.Auth/*.csproj
               --no-restore
           - name: Prepare package
             run: >-
               dotnet lambda package --project-location 
-              src/FIAPX.Auth=/ --output-package
+              src/FIAPX.Auth/ --output-package
               auth_lambda.zip --configuration Release --framework net8.0
           - name: Deploy to AWS Lambda auth
             run: >-
