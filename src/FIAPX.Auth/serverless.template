@@ -3,7 +3,7 @@
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "This template is partially managed by Amazon.Lambda.Annotations (v1.5.0.0).",
   "Resources": {
-    "TechChallengeAuthenticationFunctionLambdaAuthGenerated": {
+    "FIAPXAuthFunctionLambdaAuthGenerated": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -26,7 +26,7 @@
           "AWSLambdaBasicExecutionRole"
         ],
         "PackageType": "Zip",
-        "Handler": "FIAPX.Auth::TechChallenge.Authentication.Function_LambdaAuth_Generated::LambdaAuth",
+        "Handler": "FIAPX.Auth::FIAPX.Auth.Function_LambdaAuth_Generated::LambdaAuth",
         "Events": {
           "RootPost": {
             "Type": "Api",
@@ -38,7 +38,7 @@
         }
       }
     },
-    "TechChallengeAuthenticationFunctionLambdaSignUPGenerated": {
+    "FIAPXAuthFunctionLambdaSignUPGenerated": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -61,7 +61,7 @@
           "AWSLambdaBasicExecutionRole"
         ],
         "PackageType": "Zip",
-        "Handler": "FIAPX.Auth::TechChallenge.Authentication.Function_LambdaSignUP_Generated::LambdaSignUP",
+        "Handler": "FIAPX.Auth::FIAPX.Auth.Function_LambdaSignUP_Generated::LambdaSignUP",
         "Events": {
           "RootPost": {
             "Type": "Api",
