@@ -10,3 +10,5 @@ Este repositório faz parte de um conjunto de projetos usados para desenvolver a
 - 🔗 [API de Processamento](https://github.com/andersonssilveira96/6SOAT-Hackathon-ProcessamentoAPI) - API responsável por cadastrar os arquivos para serem processados.
 - 🔗 [API de Cadastro](https://github.com/andersonssilveira96/6SOAT-Hackathon-CadastroAPI) - API responsável pelo cadastro dos arquivos.
 - 🔗 [Infraestrutura](https://github.com/andersonssilveira96/6SOAT-Hackathon-Infraestructure) - Repositório que contem toda a parte de infraestrutura (Terraform e K8s) e contém também desenho de arquitetura da solução.
+
+- 📝 [Requisitos](https://github.com/andersonssilveira96/6SOAT-Hackathon-Infraestructure/blob/master/doc/Hack%20SOAT%206_7.pdf) - PDF com os requisitos do projeto.
